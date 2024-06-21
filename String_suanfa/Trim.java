@@ -16,7 +16,6 @@ class Trim {
         if (start == end) {
             return "";
         }
-
         return s.substring(start, end);
 
     }
