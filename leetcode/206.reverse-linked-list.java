@@ -87,9 +87,9 @@ class Solution {
         // }
         // return prev;
 
-        // 递归解决;
+        // 递归解决1;
         // 边缘条件判断
-        if(head == null) return null;
+        if (head == null) return null;
         if (head.next == null) return head;
         
         // 递归调用，翻转第二个节点开始往后的链表
