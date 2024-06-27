@@ -52,19 +52,37 @@
 
 // @lcpr-template-end
 // @lc code=start
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
+
+ // Definition for singly-linked list.
+// class ListNode {
+//       int val;
+//       ListNode next;
+//       ListNode() {}
+//       ListNode(int val) { this.val = val; }
+//       ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+//   }
+ 
 class Solution {
     public ListNode swapPairs(ListNode head) {
-
+        ListNode virhead = new ListNode(-1, head);
+        var index = virhead;
+        var first = index.next;
+        if (first == null || first.next == null) return virhead.next;
+        var second = index.next.next;
+        var temp = second.next;
+        while (second != null) {
+            // 三次指针交换
+            index.next = second;
+            temp = second.next;
+            second.next = first;
+            first.next = temp;
+            //更新三个指针
+            if (temp == null || temp.next == null) break;
+            index = first;
+            first = temp;
+            second = temp.next;
+        }
+        return virhead.next;
     }
 }
 // @lc code=end
