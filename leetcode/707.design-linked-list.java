@@ -1,5 +1,4 @@
 
-import java.util.Arrays;
 
 /*
  * @lc app=leetcode.cn id=707 lang=java
@@ -77,106 +76,105 @@ import java.util.Arrays;
 // @lc code=start
 class MyLinkedList {
     private int size;
-    private Node first;
+    private Node head;
+    private Node tail;
 
     public MyLinkedList() {
         this.size = 0;
-        this.first = null;
+        this.head = null;
+        this.tail = null;
     }
-    
+
     public int get(int index) {
-        printString();
-        if (index >= size) return -1;
-        Node fir = first;
-        // System.out.println("头节点的值为" + fir);
+        if (index < 0 || index >= size) return -1;
+        Node current = head;
         for (int i = 0; i < index; i++) {
-                fir = fir.next;
+            current = current.next;
         }
-        // System.out.println("列表长度为" + size);
-        // System.out.println("第" + index + "个元素为" + fir);
-        return fir.val;
+        return current.val;
     }
 
     private class Node {
         private int val;
         private Node next;
 
-        private Node(int val, Node next)
-        {
+        private Node(int val, Node next) {
             this.val = val;
             this.next = next;
         }
-
-        public String toString() {
-            return "[val =" + val + "]";
-        }
-
     }
-    
+
     public void addAtHead(int val) {
-        Node head = new Node(val, first);
-        first = head;
-        size ++;
+        Node newHead = new Node(val, head);
+        head = newHead;
+        if (size == 0) {
+            tail = newHead;
+        }
+        size++;
+    }
 
-    }
-    public void printString() {
-        int []link = new int[size];
-        Node fir = first;
-        for (int i = 0; i < size; i++) {
-            link[i] = fir.val;
-            fir = fir.next;
-        }
-        var linked = Arrays.toString(link);
-        System.out.println(linked);
-        // return linked;
-    }
-    
     public void addAtTail(int val) {
-        Node tail = new Node(val, null);
-        Node fir = first;
-        for (int i = 0; i < size - 1; i++) {
-            fir = fir.next;
+        Node newTail = new Node(val, null);
+        if (size == 0) {
+            head = newTail;
+            tail = newTail;
+        } else {
+            tail.next = newTail;
+            tail = newTail;
         }
-        size ++;
-        if (size == 1) first = tail;
-        else fir.next = tail;
+        size++;
     }
-    
+
     public void addAtIndex(int index, int val) {
-        if (index > size) return;
-        else if (index == 0) {
+        if (index < 0 || index > size) return;
+        if (index == 0) {
             addAtHead(val);
             return;
         }
-        else if (index == size) {
+        if (index == size) {
             addAtTail(val);
             return;
         }
-        Node fir = first;
+        Node prev = head;
         for (int i = 0; i < index - 1; i++) {
-            fir = fir.next;
+            prev = prev.next;
         }
-        Node ins = new Node(val, fir.next);
-        fir.next = ins;
-        size ++;
-
+        Node newNode = new Node(val, prev.next);
+        prev.next = newNode;
+        size++;
     }
-    
+
     public void deleteAtIndex(int index) {
-        if (index < size && index > 0) {
-            Node fir = first;
-            for (int i = 0; i < index - 1; i++) {
-                fir = fir.next;
+        if (index < 0 || index >= size) return;
+        if (index == 0) {
+            head = head.next;
+            if (size == 1) {
+                tail = null;
             }
-            fir.next = fir.next.next;
-            size --;
+        } else {
+            Node prev = head;
+            for (int i = 0; i < index - 1; i++) {
+                prev = prev.next;
+            }
+            prev.next = prev.next.next;
+            if (index == size - 1) {
+                tail = prev;
+            }
         }
-        else if (index == 0) {
-            first = first.next;
-            size --;
+        size--;
+    }
+
+    // Debug method to print the list
+    public void printList() {
+        Node current = head;
+        while (current != null) {
+            System.out.print(current.val + " ");
+            current = current.next;
         }
+        System.out.println();
     }
 }
+
 
 /**
  * Your MyLinkedList object will be instantiated and called as such:
