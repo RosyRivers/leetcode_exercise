@@ -73,18 +73,34 @@
  
 class Solution {
     public ListNode reverseList(ListNode head) {
+        // 迭代解决
         // 两个指针，一个指向当前节点，一个指向前一个节点
-        var index = head;
-        ListNode prev = null;
-        // 迭代
-        while(index != null) {
-            var temp = index.next;
-            index.next = prev;
-            // 两个索引进行移动
-            prev = index;
-            index = temp;
-        }
-        return prev;
+        // var index = head;
+        // ListNode prev = null;
+        // // 迭代
+        // while(index != null) {
+        //     var temp = index.next;
+        //     index.next = prev;
+        //     // 两个索引进行移动
+        //     prev = index;
+        //     index = temp;
+        // }
+        // return prev;
+
+        // 递归解决;
+        // 边缘条件判断
+        if(head == null) return null;
+        if (head.next == null) return head;
+        
+        // 递归调用，翻转第二个节点开始往后的链表
+        ListNode last = reverseList(head.next);
+        // 翻转头节点与第二个节点的指向
+        head.next.next = head;
+        // 此时的 head 节点为尾节点，next 需要指向 NULL
+        head.next = null;
+        return last;
+
+
     }
 }
 // @lc code=end
