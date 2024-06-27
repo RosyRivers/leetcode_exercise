@@ -64,25 +64,36 @@
  
 class Solution {
     public ListNode swapPairs(ListNode head) {
-        ListNode virhead = new ListNode(-1, head);
-        var index = virhead;
-        var first = index.next;
-        if (first == null || first.next == null) return virhead.next;
-        var second = index.next.next;
-        var temp = second.next;
-        while (second != null) {
-            // 三次指针交换
-            index.next = second;
-            temp = second.next;
-            second.next = first;
-            first.next = temp;
-            //更新三个指针
-            if (temp == null || temp.next == null) break;
-            index = first;
-            first = temp;
-            second = temp.next;
-        }
-        return virhead.next;
+        if (head == null || head.next == null) return head;
+        var first = head;
+        var second = head.next;
+        var newnode = swapPairs(second.next);
+
+        second.next = first;
+        first.next = newnode;
+        return second;
+ 
+
+
+        // ListNode virhead = new ListNode(-1, head);
+        // var index = virhead;
+        // var first = index.next;
+        // if (first == null || first.next == null) return virhead.next;
+        // var second = index.next.next;
+        // var temp = second.next;
+        // while (second != null) {
+        //     // 三次指针交换
+        //     index.next = second;
+        //     temp = second.next;
+        //     second.next = first;
+        //     first.next = temp;
+        //     //更新三个指针
+        //     if (temp == null || temp.next == null) break;
+        //     index = first;
+        //     first = temp;
+        //     second = temp.next;
+        // }
+        // return virhead.next;
     }
 }
 // @lc code=end
