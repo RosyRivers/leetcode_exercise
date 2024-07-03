@@ -77,7 +77,7 @@ class Solution {
         }
         for (int i : nums3) {
             for (int j : nums4) {
-                if (hash1.containsKey((0 - i - j))) counter += hash1.get(0 - i -j);
+               counter += hash1.getOrDefault(0 - i - j, 0);
             }
         }
         return counter;
