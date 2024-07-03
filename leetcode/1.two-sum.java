@@ -69,24 +69,12 @@ import java.util.HashMap;
 class Solution {
     public int[] twoSum(int[] nums, int target) {
         HashMap<Integer, Integer> hash = new HashMap<>();
-        int[] result = new int[2];
-        for (int i = 0; i < nums.length; i++) {     
-            hash.put(i, nums[i]);
-        }
-        int len = hash.size();
-        for (int i = 0; i < len; i++) {
-            int first = hash.get(i);
-            int tar = target - first;
-            hash.remove(i);
-            if (hash.containsValue(tar)) {
-                result[0] = i;
-                for (int j = i + 1; j < len; j++) {
-                    if (hash.get(j) == tar) {
-                        result[1] = j;
-                        return result;
-                    }
-                }
+        for (int i = 0; i < nums.length; i++) {
+            int tar = target - nums[i];
+            if (hash.containsKey(tar)) {
+                return new int[] {hash.get(tar), i};
             }
+            hash.put(nums[i], i);
         }
         return null;
     }
