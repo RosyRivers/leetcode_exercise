@@ -102,7 +102,7 @@ class Solution {
                 break;
             }
         }
-
+        // 如果存在环，则寻找入口
         while (flag == 1) {
             if (head == slow) return head;
             slow = slow.next;

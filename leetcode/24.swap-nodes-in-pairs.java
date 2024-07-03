@@ -84,14 +84,13 @@ class Solution {
         // while (second != null) {
         //     // 三次指针交换
         //     index.next = second;
-        //     temp = second.next;
+        //     first.next = second.next;
         //     second.next = first;
-        //     first.next = temp;
         //     //更新三个指针
-        //     if (temp == null || temp.next == null) break;
+        //     if (first.next == null || first.next.next == null) break;
         //     index = first;
-        //     first = temp;
-        //     second = temp.next;
+        //     first = first.next;
+        //     second = first.next;
         // }
         // return virhead.next;
     }
