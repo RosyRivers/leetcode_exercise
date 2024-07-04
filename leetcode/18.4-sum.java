@@ -68,12 +68,12 @@ class Solution {
         for (int k = 0; k < nums.length - 3; k++) {
             if (nums[k] > target && nums[k] > 0) return result; // 剪枝
             if (k > 0 && nums[k] == nums[k - 1]) continue; // 去重
-            System.out.println("k=" + k);
+            // System.out.println("k=" + k);
             for (int i = k + 1; i < nums.length - 2; i++) {
                 int fir = nums[k] + nums[i];
-                if (fir > target && fir > 0) return result; //剪枝
+                if (fir > target && fir > 0) break; //剪枝, 注意，这里容易出问题
                 if (i - 1 > k && nums[i] == nums[i-1]) continue;
-                System.out.println("i=" + i);
+                // System.out.println("i=" + i);
                 int left = i + 1;
                 int right = nums.length - 1;
                 while (left < right) {
@@ -81,7 +81,7 @@ class Solution {
                     if (sum > target) right -- ;
                     else if (sum < target) left ++;
                     else {
-                        System.out.println("left=" + left + "\nright=" + right);
+                        // System.out.println("left=" + left + "\nright=" + right);
                         result.add(Arrays.asList(nums[k], nums[i], nums[left], nums[right]));
                         while (left < right && nums[left] == nums[left+1]) left++;
                         while (left < right && nums[right] == nums[right-1]) right--;
@@ -110,5 +110,8 @@ class Solution {
 // [-5,-4,-3,-2,-1,0,0,1,2,3,4,5]\n0\n
 // @lcpr case=end
 
+// @lcpr case=start
+// [-9,-2,7,6,-8,5,8,3,-10,-7,8,-8,0,0,1,-8,7]\n4\n
+// @lcpr case=end
  */
 
