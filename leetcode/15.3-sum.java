@@ -78,7 +78,7 @@ class Solution {
         List<List<Integer>> result = new ArrayList<>();
         Arrays.sort(nums);
         for (int i = 0; i < nums.length - 2; i++) {
-            if (nums[i] > 0) return result; //若最小的元素都大于零，则停止搜寻
+            if (nums[i] > 0) return result; //若最小的元素都大于零，则停止搜寻,剪枝
             if(i > 0 && nums[i] == nums[i-1]) continue; // 完成对i的去重
             int left = i + 1;
             int right = nums.length - 1;
