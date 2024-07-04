@@ -68,6 +68,7 @@
 // @lcpr-template-end
 // @lc code=start
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,21 +78,21 @@ class Solution {
         List<List<Integer>> result = new ArrayList<>();
         Arrays.sort(nums);
         for (int i = 0; i < nums.length - 2; i++) {
+            if (nums[i] > 0) return result; //若最小的元素都大于零，则停止搜寻
             if(i > 0 && nums[i] == nums[i-1]) continue; // 完成对i的去重
             int left = i + 1;
             int right = nums.length - 1;
             while (left < right) {
-                if (left > i + 1 && nums[left] == nums[left-1]) {
-                    left ++;
-                    continue;
-                }
-                if (nums[i] + nums[left] + nums[right] < 0) left ++;
-                else if (nums[i] + nums[left] + nums[right] > 0) right --;
+                int sum = nums[i] + nums[left] + nums[right];
+                if (sum < 0) left ++;
+                else if (sum > 0) right --;
                 else {
-                    Integer[] res = {nums[i], nums[left], nums[right]};
-                    List<Integer> temp = new ArrayList<>(List.of(res));
-                    result.add(temp);
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    // 若将要搜索的下一个元素和当前已找到的这个三元组中有一个元素相同，则跳过，直到找到不重复的元素再进入下一个循环
+                    while (left < right && nums[right] == nums[right-1]) right --;
+                    while (left < right && nums[left] == nums[left+1]) left ++;
                     left ++;
+                    right --;
                 }
             }
         }
