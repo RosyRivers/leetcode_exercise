@@ -124,7 +124,7 @@ class MyStack {
                 temp.offer(stack.poll());
                 //flag = 0;
             }
-            return stack.peek();
+            return stack.peek();    
         }
     }
     
