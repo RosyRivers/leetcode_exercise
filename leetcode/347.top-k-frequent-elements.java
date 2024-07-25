@@ -57,17 +57,19 @@ import java.util.PriorityQueue;
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
         HashMap<Integer, Integer> hash = new HashMap<>();
+        // O(n)
         for (int i = 0; i < nums.length; i++) {
             hash.put(nums[i], hash.getOrDefault(nums[i], 0) + 1);
         }
         PriorityQueue<int[]> pq = new PriorityQueue<>((pair1, pair2)
             -> pair2[1] - pair1[1]);
-        
+        // O(nlogn)
         for (int num : hash.keySet()) {
             int[] temp = {num,hash.get(num)};
             pq.offer(temp);
         }
         int[] res = new int[k];
+        // O(klogn)
         for (int i = 0; i < k; i++) {
             res[i] = pq.poll()[0];
         }
