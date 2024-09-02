@@ -1,27 +1,28 @@
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
 
 /*
- * @lc app=leetcode.cn id=144 lang=java
+ * @lc app=leetcode.cn id=145 lang=java
  * @lcpr version=30204
  *
- * [144] 二叉树的前序遍历
+ * [145] 二叉树的后序遍历
  *
- * https://leetcode.cn/problems/binary-tree-preorder-traversal/description/
+ * https://leetcode.cn/problems/binary-tree-postorder-traversal/description/
  *
  * algorithms
- * Easy (71.94%)
- * Likes:    1272
+ * Easy (76.65%)
+ * Likes:    1193
  * Dislikes: 0
- * Total Accepted:    1.1M
- * Total Submissions: 1.6M
+ * Total Accepted:    818.5K
+ * Total Submissions: 1.1M
  * Testcase Example:  '[1,null,2,3]'
  *
- * 给你二叉树的根节点 root ，返回它节点值的 前序 遍历。
+ * 给你一棵二叉树的根节点 root ，返回其节点值的 后序遍历 。
  * 
  * 
  * 
@@ -30,7 +31,7 @@ import java.util.List;
  * 
  * 输入：root = [1,null,2,3]
  * 
- * 输出：[1,2,3]
+ * 输出：[3,2,1]
  * 
  * 解释：
  * 
@@ -42,7 +43,7 @@ import java.util.List;
  * 
  * 输入：root = [1,2,3,4,5,null,8,null,null,6,7,9]
  * 
- * 输出：[1,2,4,5,6,7,3,8,9]
+ * 输出：[4,6,7,5,2,9,8,3,1]
  * 
  * 解释：
  * 
@@ -70,7 +71,7 @@ import java.util.List;
  * 提示：
  * 
  * 
- * 树中节点数目在范围 [0, 100] 内
+ * 树中节点的数目在范围 [0, 100] 内
  * -100 <= Node.val <= 100
  * 
  * 
@@ -101,35 +102,29 @@ import java.util.List;
  * }
  */
 class Solution {
-    public List<Integer> preorderTraversal(TreeNode root) {
+    public List<Integer> postorderTraversal(TreeNode root) {
         ArrayDeque<TreeNode> stack = new ArrayDeque<>();
         List<Integer> result = new ArrayList<>();
-/*      if (root != null)
-            stack.push(root);
-        else return result;
+/*      if (root == null) return result;
+        stack.push(root);
         while (!stack.isEmpty()) {
-            TreeNode temp = stack.peek();
-            result.add(stack.pop().val);
-            if (temp.right != null) stack.push(temp.right);
+            TreeNode temp = stack.pop();
+            result.add(temp.val);
             if (temp.left != null) stack.push(temp.left);
+            if (temp.right != null) stack.push(temp.right);
         }
-*/  
+        Collections.reverse(result);*/
         if (root == null) return result;
         stack.push(root);
         TreeNode flag = new TreeNode();
-        while (!stack.isEmpty()) {
+        while(!stack.isEmpty()) {
             TreeNode temp = stack.peek();
             if (temp != flag) {
-                stack.pop();
-                if (temp.right != null) {
-                    stack.push(temp.right);
-                }
-                if (temp.left != null) {
-                    stack.push(temp.left);
-                }
-                stack.push(temp);
                 stack.push(flag);
-
+                if (temp.right != null) 
+                    stack.push(temp.right);
+                if (temp.left != null) 
+                    stack.push(temp.left);
             }
             else {
                 stack.pop();

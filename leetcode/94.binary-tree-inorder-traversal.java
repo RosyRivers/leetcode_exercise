@@ -1,67 +1,38 @@
-
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-
-
-
 /*
- * @lc app=leetcode.cn id=144 lang=java
+ * @lc app=leetcode.cn id=94 lang=java
  * @lcpr version=30204
  *
- * [144] 二叉树的前序遍历
+ * [94] 二叉树的中序遍历
  *
- * https://leetcode.cn/problems/binary-tree-preorder-traversal/description/
+ * https://leetcode.cn/problems/binary-tree-inorder-traversal/description/
  *
  * algorithms
- * Easy (71.94%)
- * Likes:    1272
+ * Easy (76.90%)
+ * Likes:    2131
  * Dislikes: 0
- * Total Accepted:    1.1M
- * Total Submissions: 1.6M
+ * Total Accepted:    1.6M
+ * Total Submissions: 2M
  * Testcase Example:  '[1,null,2,3]'
  *
- * 给你二叉树的根节点 root ，返回它节点值的 前序 遍历。
+ * 给定一个二叉树的根节点 root ，返回 它的 中序 遍历 。
  * 
  * 
  * 
  * 示例 1：
  * 
- * 
  * 输入：root = [1,null,2,3]
- * 
- * 输出：[1,2,3]
- * 
- * 解释：
- * 
- * 
+ * 输出：[1,3,2]
  * 
  * 
  * 示例 2：
  * 
- * 
- * 输入：root = [1,2,3,4,5,null,8,null,null,6,7,9]
- * 
- * 输出：[1,2,4,5,6,7,3,8,9]
- * 
- * 解释：
- * 
- * 
+ * 输入：root = []
+ * 输出：[]
  * 
  * 
  * 示例 3：
  * 
- * 
- * 输入：root = []
- * 
- * 输出：[]
- * 
- * 
- * 示例 4：
- * 
- * 
  * 输入：root = [1]
- * 
  * 输出：[1]
  * 
  * 
@@ -76,7 +47,7 @@ import java.util.List;
  * 
  * 
  * 
- * 进阶：递归算法很简单，你可以通过迭代算法完成吗？
+ * 进阶: 递归算法很简单，你可以通过迭代算法完成吗？
  * 
  */
 
@@ -85,6 +56,15 @@ import java.util.List;
 
 // @lcpr-template-end
 // @lc code=start
+
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+
+
+
+
+
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -101,43 +81,44 @@ import java.util.List;
  * }
  */
 class Solution {
-    public List<Integer> preorderTraversal(TreeNode root) {
+    public List<Integer> inorderTraversal(TreeNode root) {
         ArrayDeque<TreeNode> stack = new ArrayDeque<>();
         List<Integer> result = new ArrayList<>();
-/*      if (root != null)
-            stack.push(root);
-        else return result;
-        while (!stack.isEmpty()) {
-            TreeNode temp = stack.peek();
-            result.add(stack.pop().val);
-            if (temp.right != null) stack.push(temp.right);
-            if (temp.left != null) stack.push(temp.left);
-        }
-*/  
+/*      TreeNode next = root;
+        while (next != null || !stack.isEmpty()) {
+            if (next != null) {
+                stack.push(next);
+                next = next.left;
+            }
+            else {
+                next = stack.pop();
+                result.add(next.val);
+                next = next.right;
+            }
+        }   
+*/
         if (root == null) return result;
         stack.push(root);
         TreeNode flag = new TreeNode();
         while (!stack.isEmpty()) {
             TreeNode temp = stack.peek();
             if (temp != flag) {
+                // 先弹出父节点，防止重复入栈
                 stack.pop();
-                if (temp.right != null) {
+                if (temp.right != null)
                     stack.push(temp.right);
-                }
-                if (temp.left != null) {
-                    stack.push(temp.left);
-                }
                 stack.push(temp);
                 stack.push(flag);
-
+                if (temp.left != null)
+                    stack.push(temp.left);
             }
             else {
                 stack.pop();
                 result.add(stack.pop().val);
             }
         }
-        return result;
 
+        return result;
     }
 }
 // @lc code=end
@@ -147,14 +128,6 @@ class Solution {
 /*
 // @lcpr case=start
 // [1,null,2,3]\n
-// @lcpr case=end
-
-// @lcpr case=start
-// [1,2,3,4,5,null,8,null,null,6,7,9]\n
-// @lcpr case=end
-
-// @lcpr case=start
-// [5,4,6,1,2]\n
 // @lcpr case=end
 
 // @lcpr case=start
