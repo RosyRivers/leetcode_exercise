@@ -53,6 +53,10 @@
 
 // @lcpr-template-end
 // @lc code=start
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -69,8 +73,24 @@
  * }
  */
 class Solution {
+    int min;
+    int pre;
     public int getMinimumDifference(TreeNode root) {
+        min = Integer.MAX_VALUE;
+        pre = -1;
+        travel(root);
+        return min;
+        
+    }
 
+    public void travel(TreeNode node) {
+        if (node == null) return;
+        travel(node.left);
+        if (pre >= 0)
+            min = Math.min(min, node.val - pre);
+        pre = node.val;
+
+       travel(node.right);
     }
 }
 // @lc code=end
