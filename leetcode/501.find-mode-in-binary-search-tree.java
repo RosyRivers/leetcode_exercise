@@ -84,33 +84,37 @@ import java.util.stream.Collectors;
  * }
  */
 class Solution {
+    ArrayList<Integer> resList;
+    int count;
+    int maxCount;
+    TreeNode pre;
 	public int[] findMode(TreeNode root) {
-		Map<Integer, Integer> map = new HashMap<>();
-		List<Integer> list = new ArrayList<>();
-		if (root == null) return list.stream().mapToInt(Integer::intValue).toArray();
-		// 获得频率 Map
-		searchBST(root, map);
-		List<Map.Entry<Integer, Integer>> mapList = map.entrySet().stream()
-				.sorted((c1, c2) -> c2.getValue().compareTo(c1.getValue()))
-				.collect(Collectors.toList());
-		list.add(mapList.get(0).getKey());
-		// 把频率最高的加入 list
-		for (int i = 1; i < mapList.size(); i++) {
-			if (mapList.get(i).getValue() == mapList.get(i - 1).getValue()) {
-				list.add(mapList.get(i).getKey());
-			} else {
-				break;
-			}
-		}
-		return list.stream().mapToInt(Integer::intValue).toArray();
+        count = 1;
+        maxCount = 1;
+        pre = null;
+        resList = new ArrayList<>();
+        findMode1(root);
+        int[] result = new int[resList.size()];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = resList.get(i);
+        }
+        return result;
 	}
 
-	void searchBST(TreeNode curr, Map<Integer, Integer> map) {
-		if (curr == null) return;
-		map.put(curr.val, map.getOrDefault(curr.val, 0) + 1);
-		searchBST(curr.left, map);
-		searchBST(curr.right, map);
-	}
+	public void findMode1(TreeNode node) {
+        if (node == null) return;
+        findMode1(node.left);
+        if (pre == null || pre.val != node.val) count = 1;
+        else count ++;
+        if (count > maxCount) {
+            resList.clear();
+            resList.add(node.val);
+            maxCount = count;
+        }
+        else if (count == maxCount) resList.add(node.val);
+        pre = node;
+        findMode1(node.right);
+    }
 }
 // @lc code=end
 
