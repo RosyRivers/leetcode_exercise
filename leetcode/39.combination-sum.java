@@ -63,36 +63,30 @@
 // @lc code=start
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 class Solution {
-    List<List<Integer>> result;
-    List<Integer> path;
-    int sum;
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        result = new ArrayList<>();
-        path = new ArrayList<>();
-        sum = 0;
-        backtracking(candidates,target, 0);
-        return result;
+        List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(candidates); // 先进行排序
+        backtracking(res, new ArrayList<>(), candidates, target, 0, 0);
+        return res;
     }
 
-    public void backtracking(int[] candidates, int target,int start) {
-        if (sum > target) return;
-        else if (sum == target) {
-            List<Integer> temp = new ArrayList<>(path);
-            result.add(temp);
+    public void backtracking(List<List<Integer>> res, List<Integer> path, int[] candidates, int target, int sum, int idx) {
+        // 找到了数字和为 target 的组合
+        if (sum == target) {
+            res.add(new ArrayList<>(path));
             return;
         }
 
-        for (int i = start; i < candidates.length; i++) {
-            sum += candidates[i];
+        for (int i = idx; i < candidates.length; i++) {
+            // 如果 sum + candidates[i] > target 就终止遍历
+            if (sum + candidates[i] > target) break;
             path.add(candidates[i]);
-            backtracking(candidates, target, i);
-            sum -= candidates[i];
-            path.removeLast();
+            backtracking(res, path, candidates, target, sum + candidates[i], i);
+            path.remove(path.size() - 1); // 回溯，移除路径 path 最后一个元素
         }
     }
 }
