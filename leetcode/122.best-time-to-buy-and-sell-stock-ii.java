@@ -61,7 +61,18 @@
 // @lc code=start
 class Solution {
     public int maxProfit(int[] prices) {
-        
+        int cur = Integer.MAX_VALUE;
+        int profit = 0;
+        for (int i = 0; i < prices.length; i++) {
+            // 如果当前跌了，则买入当前的股票
+            if (cur > prices[i]) cur = prices[i];
+            // 如果当前涨了，卖出当前的股票
+            else {
+                profit += (prices[i] - cur);
+                cur = prices[i];
+            }  
+        }
+        return profit;
     }
 }
 // @lc code=end
