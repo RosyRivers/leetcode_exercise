@@ -65,22 +65,21 @@
 // @lc code=start
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 class Solution {
     public int[][] reconstructQueue(int[][] people) {
         int[][] result = new int[people.length][2];
-        Arrays.sort(people, 0, people.length,
-        (first, second) ->{
-            if (first[0] - second[0] == 0) return first[1] - second[1];
-            else return second[0] - first[0];    
+        Arrays.sort(people, (first, second) -> {
+            if (first[0] == second[0]) return first[1] - second[1];
+            else return second[0] - first[0];
         });
-        for (int i = 0; i < result.length; i++) {
-            for (int j = 0; people[j][1] <= i && j < people.length; j++) {
-                result[i] = people[j];
-            }
-            System.out.printf("%d ", people[i][0]);
+        List<int[]> array = new LinkedList<>();
+        for (int i = 0; i < people.length; i++) {
+            array.add(people[i][1], people[i]);
         }
-        return result;
+        return array.toArray(result);
     }
 }
 // @lc code=end
