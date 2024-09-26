@@ -47,15 +47,11 @@
 // @lcpr-template-end
 // @lc code=start
 
-import java.util.Arrays;
 
 class Solution {
-    boolean[] bucket;
     boolean[] used;
-    int cursum;
     int target;
     public boolean canPartitionKSubsets(int[] nums, int k) {
-        bucket = new boolean[k];
         used = new boolean[nums.length];
         int sum = 0;
         for (int i : nums) {
@@ -63,22 +59,20 @@ class Solution {
         }
         if (sum % k != 0) return false;
         target = sum / k;
-        cursum = 0;
-        return backTravel(nums, k, k - 1, 0);
+        return backTravel(nums, k - 1, 0, 0);
 
 
     }
-    public boolean backTravel(int[] nums, int k, int curBucket, int startIndex) {
+    public boolean backTravel(int[] nums, int curBucket, int startIndex,int cursum) {
         // 所有的桶装满, 这个问题得到解决
         if (curBucket < 0) return true;
         if (cursum == target) {
-            cursum = 0;
             // 找到一个目标和，继续寻找剩下的目标和
             // for (boolean i : used) {
             //     System.out.printf("%b ",i);
             // }
             // System.out.println();
-            if(backTravel(nums, k, curBucket - 1, 0)) return true;
+            return backTravel(nums, curBucket - 1, 0, 0);
         }
         for (int i = startIndex; i < nums.length; i++) {
             // 同层遍历
@@ -86,9 +80,15 @@ class Solution {
             if (cursum + nums[i] > target) continue;
             used[i] = true;
             cursum += nums[i];
-            // 进入下一层
-            if (backTravel(nums, k, curBucket, i + 1))
+            // 进入下一层，如果返回false，则表示这种组合方法无法找到所有的目标和
+            if (backTravel(nums, curBucket, i + 1, cursum)) {
+                // for (boolean j : used) {
+                //     System.out.printf("%b ",j);
+                // }
+                // System.out.println();
+                // System.out.println("当前遍历的元素为：" + nums[i]);
                 return true;
+            }
             cursum -= nums[i];
             used[i] = false;
         }
