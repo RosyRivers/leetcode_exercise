@@ -47,45 +47,36 @@
 // @lcpr-template-end
 // @lc code=start
 
-
+import java.util.Arrays;
 
 class Solution {
-    int sumArray;
-    int[] bucket;
-    boolean[] used;
     public boolean canPartitionKSubsets(int[] nums, int k) {
-        // 计算和
         int sum = 0;
-        for (int i : nums) {
-            sum += i;
-        }
-        if (sum % k != 0) return false;
-        used = new boolean[nums.length];
-        sumArray = sum / k;
-        // 用来存放分组结果和组内数字
-        // 对数组排序
-        bucket = new int[k + 1];
-        return backTrack(nums, 0, k);
+        for(int num : nums) sum += num;
+        if(sum % k != 0) return false;
+        Arrays.sort(nums);
+        sum = sum / k;
+        if(nums[nums.length - 1] > sum) return false;
+        int[] buckets = new int[k];
+        Arrays.fill(buckets, sum);
+        return dfs(nums,nums.length - 1, buckets, k);
     }
-    public boolean backTrack(int[] nums, int start, int idx) {
-        if (idx == 0) return true;
-        if (bucket[idx] == sumArray) {
-            return backTrack(nums, 0, idx - 1);
-        }
-        for (int i = start; i < nums.length; i++) {
-            if (used[i] == true) continue;
-            if (bucket[idx] + nums[i] > sumArray) continue;
-            bucket[idx] += nums[i];
-            used[i] = true;
-            if (backTrack(nums, i + 1, idx)) {
-                return true;
+    boolean dfs(int[] nums, int curr, int[] buckets, int k) {
+        if(curr < 0) return true;
+        for(int i = 0;i < buckets.length;i++) {
+            if(nums[curr] == buckets[i] || (buckets[i] - nums[curr] >= nums[0])) {
+                if (i > 0 && buckets[i] == buckets[i - 1]){
+                    continue;
+                }
+                buckets[i] -= nums[curr];
+                if(dfs(nums, curr - 1, buckets, k)){
+                    return true;
+                }
+                buckets[i] += nums[curr];
             }
-            bucket[idx] -= nums[i];
-            used[i] = false;
         }
         return false;
     }
-    
 }
 // @lc code=end
 
