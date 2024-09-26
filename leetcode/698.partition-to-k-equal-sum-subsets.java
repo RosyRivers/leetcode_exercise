@@ -47,50 +47,29 @@
 // @lcpr-template-end
 // @lc code=start
 
+import java.util.Arrays;
 
 class Solution {
-    boolean[] used;
-    int target;
-    public boolean canPartitionKSubsets(int[] nums, int k) {
-        used = new boolean[nums.length];
-        int sum = 0;
-        for (int i : nums) {
-            sum += i;
-        }
-        if (sum % k != 0) return false;
-        target = sum / k;
-        return backTravel(nums, k - 1, 0, 0);
-
-
+    int[] nums;
+    int n, target, k;
+    public boolean canPartitionKSubsets(int[] _nums, int _k) {
+        nums = _nums; k = _k;
+        int tot = 0;
+        for (int x : nums) tot += x;
+        if (tot % k != 0) return false; // 可行性剪枝
+        Arrays.sort(nums);
+        n = nums.length; target = tot / k;
+        return dfs(n - 1, 0, 0, new boolean[n]);
     }
-    public boolean backTravel(int[] nums, int curBucket, int startIndex,int cursum) {
-        // 所有的桶装满, 这个问题得到解决
-        if (curBucket < 0) return true;
-        if (cursum == target) {
-            // 找到一个目标和，继续寻找剩下的目标和
-            // for (boolean i : used) {
-            //     System.out.printf("%b ",i);
-            // }
-            // System.out.println();
-            return backTravel(nums, curBucket - 1, 0, 0);
-        }
-        for (int i = startIndex; i < nums.length; i++) {
-            // 同层遍历
-            if (used[i] == true) continue;
-            if (cursum + nums[i] > target) continue;
+    boolean dfs(int idx, int cur, int cnt, boolean[] used) {
+        if (cnt == k) return true;
+        if (cur == target) return dfs(n - 1, 0, cnt + 1, used);
+        for (int i = idx; i >= 0; i--) {  // 顺序性剪枝
+            if (used[i] || cur + nums[i] > target) continue;  // 可行性剪枝
             used[i] = true;
-            cursum += nums[i];
-            // 进入下一层，如果返回false，则表示这种组合方法无法找到所有的目标和
-            if (backTravel(nums, curBucket, i + 1, cursum)) {
-                // for (boolean j : used) {
-                //     System.out.printf("%b ",j);
-                // }
-                // System.out.println();
-                // System.out.println("当前遍历的元素为：" + nums[i]);
-                return true;
-            }
-            cursum -= nums[i];
+            if (dfs(i - 1, cur + nums[i], cnt, used)) return true;
             used[i] = false;
+            if (cur == 0) return false; // 可行性剪枝
         }
         return false;
     }
