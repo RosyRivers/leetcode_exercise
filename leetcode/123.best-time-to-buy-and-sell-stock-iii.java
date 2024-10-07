@@ -94,7 +94,7 @@ class Solution {
             // System.out.printf("%d %d %d %d ", dp[i][1],dp[i][2],dp[i][3],dp[i][4]);
             // System.out.println();
         }
-        return dp[prices.length - 1][2] > dp[prices.length - 1][4] ? dp[prices.length - 1][2]:dp[prices.length - 1][4];
+        return dp[prices.length - 1][4];
 
     }
 }
