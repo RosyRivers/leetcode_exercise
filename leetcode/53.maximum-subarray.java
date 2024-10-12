@@ -61,16 +61,29 @@
 // @lc code=start
 class Solution {
     public int maxSubArray(int[] nums) {
-        int max = Integer.MIN_VALUE;
-        int count = 0;
-        for (int i = 0; i < nums.length; i++) {
-            count += nums[i];
-            if (max < count) max = count;
-            if (count < 0) {
-                count = 0;
-            }
+        // // 贪心算法
+        // int max = Integer.MIN_VALUE;
+        // int count = 0;
+        // for (int i = 0; i < nums.length; i++) {
+        //     count += nums[i];
+        //     if (max < count) max = count;
+        //     if (count < 0) {
+        //         count = 0;
+        //     }
+        // }
+        // return max;
+
+        // dp[]表示数组nums[0,i]的最大连续数组之和
+        int[] dp = new int[nums.length];
+        int result = nums[0];
+        dp[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);
+            if (result < dp[i]) result = dp[i];
+
         }
-        return max;
+        return result;
+
 
     }
 }
