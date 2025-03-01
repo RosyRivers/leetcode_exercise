@@ -45,8 +45,40 @@
 
 // @lcpr-template-end
 // @lc code=start
+
+import java.util.ArrayList;
+import java.util.List;
+
 class Solution {
+    private static StringBuffer path;
+    private static List<String> ans;
+    private static final char[] cha = new char[]{'(', ')'};
     public List<String> generateParenthesis(int n) {
+        path = new StringBuffer();
+        ans = new ArrayList<>();
+        generateK(n, 0, 0);
+        return ans;
+        
+    }
+    // flag = false 表示无法输入) cur = n && flag = true表示无法输入(
+    public static void generateK(int n, int lcur, int rcur) {
+        // 递归推出条件
+        if (lcur == n && rcur == n) {
+            ans.add(path.toString());
+            return;
+        }
+
+        // 回溯
+        if (lcur < n) {
+            path.append(cha[0]);
+            generateK(n, lcur + 1, rcur);
+            path.deleteCharAt(path.length() - 1);
+        }
+        if (rcur < lcur) {
+            path.append(cha[1]);
+            generateK(n, lcur, rcur + 1);
+            path.deleteCharAt(path.length() - 1);
+        }
 
     }
 }
