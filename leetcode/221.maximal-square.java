@@ -57,8 +57,19 @@
 // @lc code=start
 class Solution {
     public int maximalSquare(char[][] matrix) {
-        int sq = 0;
-        return sq;
+        // 表示以i,j结尾的最大正方形的面积
+        int[][] dp = new int[matrix.length + 1][matrix[0].length + 1];
+        int result = 0;
+        // dp[i][j] = min(dp[i - 1][j - 1], dp[i - 1][j], do[i][j - 1]) + 1
+        for (int i = 1; i <= matrix.length; i++) {
+            for (int j = 1; j <= matrix[0].length; j++) {
+                if (matrix[i - 1][j - 1] == '1') {
+                    dp[i][j] = Math.min(dp[i - 1][j - 1], Math.min(dp[i][j - 1], dp[i - 1][j])) + 1;
+                    if (result < dp[i][j]) result = dp[i][j];
+                }
+            }
+        }
+        return result * result;
     }
 }
 // @lc code=end

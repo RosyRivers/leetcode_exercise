@@ -1,0 +1,32 @@
+FUNCTION Find_Local_Optimum(x_ini, N, M):
+    INPUT: 
+        x_ini - 初始可行解
+        N - 客户任务总数
+        M - 每个任务的可能卸载选项数
+
+    DO:
+        # Step 1: 随机生成任务顺序
+        task_list <- Random(N)
+        
+        # Step 2: 遍历任务列表
+        FOR each task i IN task_list:
+            # Step 3: 评估任务 i 的所有卸载决策
+            FOR each option k IN (M+1):
+                # Step 4: 计算任务效用
+                utility <- Calculate_Utility(x_ini, i, k)
+                
+                # Step 5: 更新解
+                IF utility < 当前效用:
+                    x_ini <- Update_Solution(x_ini, i, k)
+                    BREAK # 退出当前任务决策循环
+                    
+            # Step 6: 检查是否为最后一个任务
+            IF i == N:
+                BREAK # 退出任务循环
+                
+        # Step 7: 检查收敛条件
+        convergence <- Check_Convergence(x_ini)
+        
+    WHILE convergence == FALSE
+
+    RETURN x_ini
