@@ -64,22 +64,34 @@
  */
 class Solution {
     public ListNode swapPairs(ListNode head) {
-        if (head == null || head.next == null) return head;
-        ListNode virHead = new ListNode(-1, head);
-        ListNode pre = virHead;
-        ListNode cur = head;
-        ListNode next = head.next;
-        while (cur != null && next != null) {
-            cur.next = next.next;
-            next.next = cur;
-            pre.next = next;
+        // 迭代解决
+        // if (head == null || head.next == null) return head;
+        // ListNode virHead = new ListNode(-1, head);
+        // ListNode pre = virHead;
+        // ListNode cur = head;
+        // ListNode next = head.next;
+        // while (cur != null && next != null) {
+        //     cur.next = next.next;
+        //     next.next = cur;
+        //     pre.next = next;
 
-            pre = cur;
-            cur = pre.next;
-            if (cur == null) break;
-            next = cur.next;
-        }
-        return virHead.next;
+        //     pre = cur;
+        //     cur = pre.next;
+        //     if (cur == null) break;
+        //     next = cur.next;
+        // }
+        // return virHead.next;
+
+        /**
+         * 递归解决
+         */
+        // 递归的退出条件
+        if (head == null || head.next == null) return head;
+        // 进行递归
+        ListNode cur = head, pre = cur.next;
+        cur.next = swapPairs(pre.next);
+        pre.next = cur;
+        return pre;
     }
 }
 // @lc code=end
